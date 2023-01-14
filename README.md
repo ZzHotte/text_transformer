@@ -78,10 +78,17 @@ This function is to free the momory allocated by the nodes one by one in the com
 static void freeNodes (LinkList0 *currLink);
 ```
 ### 08 writeCSV
-This function is to write the CSV down, the csv's name would be ```result.csv```.
+This function is to write the CSV down, the csv's name would be ```result.csv```. 
+The modification of adding parameter of the target file name is easy, but not necessary.
 ```c
 static void writeCSV (char *srcText, char* command);
 ```
+## User Guideline
+First, place the script in a working directory you want.
+
+Second, compile the script and by running the function, input the command (elaborated above in Background) and filename (in path).
+
+Third, the script would automatically run and write down the result csv in your working directory.
 
 
 
