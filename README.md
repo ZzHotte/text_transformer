@@ -19,6 +19,71 @@ This means we want for each single line in the txt, we only want three: the lang
 
 In contrast with replacing characteristic signals (characters) with commas and semicolons hence writing into csv, the txt_transformer rewrite csv basing on the command input. You need to input the path (filename included) first and input the command next, hence creating a table showed as above.
 
-## 02 Structure
+
+## 02 Structure & Functions
+txt_transformer generate the csv basing on commands (normally input in string for a convenience), hence, a data structure to store the command it is needed. We can't anticipate how many columns would be needed, hence I built a linked list to store so. For each node, containing information include:
+```c
+typedef struct comStr 
+{
+    int start;                  // the digit of the head of the block,
+    int length;                 // the length of the block,
+    int count;                  // the index number of the node,
+    struct comStr *next;        // the next node
+} LinkList0;
+```
+We also need to provide a linkedlist to store sentence, and next to split them basing on the commmand one by one, lastly write them into csv.
+```c
+typedef struct infoStr 
+{
+    char* content;
+    struct infoStr *next;
+} LinkList1;
+```
+
+### 01 openTxt
+openTxt is a function open the txt file by locating the file name input (fname), read the content inside and next extract information out.
+```c
+static char *openTXT (char *fname);
+```
+### 02 split
+split is a function used to split a string basing on the sperator, meanwhile would count the number of blocks splitted (stored in num) and next return the splitted array (stored in **result), just like the split do in python.
+```c
+static void split (char *source, char *seperator, char **result, int *num);
+```
+
+### 03 cmdLink
+This function is to build a link of command node basing on the array input generated in function split.
+```c
+static LinkList0 *cmdLink (char *command, char *sep);
+```
+
+### 04 substring
+This function is to crop a substring basing on a source string given, just like ```src[start+1:start+len+1:]``` do in python.
+```c
+static char* substring (char *src, int start, int length);
+```
+### 05 genereateRow
+This function is to generate a row basing on the sourceLine (string) and the command. 
+```c
+static char* genereateRow (char* srcLine, LinkList0 *currLink);
+```
+### 06 showNodes
+This function is to present the nodes one by one in the command linked list. 
+```c
+static void showNodes (LinkList0 *currLink);
+```
+### 07 freeNodes
+This function is to free the momory allocated by the nodes one by one in the command linked list.
+```c
+static void freeNodes (LinkList0 *currLink);
+```
+### 08 writeCSV
+This function is to write the CSV down, the csv's name would be ```result.csv```.
+```c
+static void writeCSV (char *srcText, char* command);
+```
+
+
+
 
 
