@@ -1,4 +1,4 @@
-// 思路 在得到这个txt文件的时候我们并不知道有多少行 当我们每读取一行 我们将信息分成我们需要的部分
+// Arthur: Zoey Zhang
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -6,7 +6,8 @@
 #include<assert.h>
 #include<malloc.h>
 
-// 配置链表 数组 comNum[2] = {Start Charater, Character Length}
+// Setup LinkedList
+// Array comNum[2] = {Start Charater, Character Length}
 typedef struct comStr 
 {
     int start;
@@ -32,8 +33,8 @@ static void freeNodes (LinkList0 *currLink);
 static void writeCSV (char *srcText, char* command);
 
 //////////////////////////////////////////////////////////////////////////////////////
-// 01 读取函数
-/* 打开指定的txt文件并读取文档 */
+// 01 Read Function
+/* Open the txt file given in parameters (string) and return the text */
 static char *openTXT (char *fname) 
 {    
     FILE *fp = NULL;
@@ -52,8 +53,8 @@ static char *openTXT (char *fname)
     return strText;
 }
 
-// 02 分割函数
-/* 根据分割符号去分割函数*/
+// 02 Split Function
+/* Using the parameter seperator to cut each line and hence return.*/
 static void split (char *source, char *seperator, char **result, int *num) 
 {
     // 去除空的情况
@@ -77,18 +78,18 @@ static void split (char *source, char *seperator, char **result, int *num)
     *num = count;
 }
 
-// 03 命令转换
-/* 根据命令将转换为分割数组 输入规则为 0,4;4,6;10,2;*/
+// 03 Command Converter
+/* Cut the array basing on the command input. The rule should be 0,4;4,6;10,2;*/
 static LinkList0 *cmdLink (char *command, char *sep)
 {
-    // 配置链表
+    // Set up the LinkedList
     LinkList0 *head, *node, *end;
     LinkList0 *cnode = (LinkList0*) malloc(sizeof(LinkList0));
     head = cnode;
     end  = head;
     head->next = end;
     
-    // 根据 sep 分割输入的命令
+    // Using sep to cut the command input
     int counter = 0;
     int  cmdlen = strlen(command);
     char **cmds = malloc((cmdlen + 1) * sizeof(char));
@@ -97,7 +98,7 @@ static LinkList0 *cmdLink (char *command, char *sep)
     split(command, sep, cmds, cmdn);
     // printf("\nCommand Number: %d\n", *cmdn);
 
-    // 将分割好的命令分成数导入到数组中 并写进链表里
+    // Write the input cut into array
     for (int count = 0; count < *cmdn; count++) 
     {
         // 生成 node, 如果 count == 0, 则标记为第一个
@@ -133,8 +134,8 @@ static LinkList0 *cmdLink (char *command, char *sep)
     return head;
 }
 
-// 04 生成子字符串
-/* 截取并返回一段子字符串, memory set*/
+// 04 Generate the substring
+/* Crop and return a substring of length basing on the start digit, memory set*/
 static char* substring (char *src, int start, int length)
 {
     char *result = malloc((length + 1) * sizeof(char));
@@ -143,8 +144,8 @@ static char* substring (char *src, int start, int length)
     return result;
 }
 
-// 05 生成数据行
-/* 生成一行用于Excel的表达式*/
+// 05 Generate data line
+/* Basing on the linklist generate a line of data, hence write in*/
 static char* genereateRow (char* srcLine, LinkList0 *currLink) 
 {
     LinkList0 *currNode = currLink;
@@ -168,8 +169,8 @@ static char* genereateRow (char* srcLine, LinkList0 *currLink)
     return result;
 }
 
-// 06 释放链表内存
-/* 释放掉一个列表所占用的内存*/
+// 06 Release LinkList memory
+/* Release the memory occupied by linklist*/
 static void freeNodes (LinkList0 *currLink)
 {
     LinkList0 *currnode = currLink;
@@ -181,8 +182,8 @@ static void freeNodes (LinkList0 *currLink)
     }
 }
 
-// 07 展示nodes
-/* 展示nodes*/
+// 07 Show nodes
+/* show nodes*/
 static void showNodes (LinkList0 *head) 
 {
     LinkList0 *currnode = head;
@@ -193,8 +194,8 @@ static void showNodes (LinkList0 *head)
     }
 }
 
-// 08 写入Csv
-/* 分配内存生成数据行并写入数据行中*/
+// 08 Write in csv
+/* Allocate memory to generate the data line, and write them in.*/
 static void writeCSV (char *srcText, char* command) 
 {
     FILE *fpe = NULL;
